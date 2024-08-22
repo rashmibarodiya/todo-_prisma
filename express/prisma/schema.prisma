@@ -29,14 +29,14 @@ model Post {
 }
 
 model TodoUser {
-  id       Int    @id @default(autoincrement())
-  username String
+  id       Int   @unique @id @default(autoincrement())
+  username String @unique
   password String
   todos    Todo[]
 }
 
 model Todo {
-  id          Int     @id @default(autoincrement())
+  id          Int     @unique @id @default(autoincrement())
   title       String
   description String
   done        Boolean
