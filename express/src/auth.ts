@@ -29,12 +29,13 @@ export const authenticateJwt = (req: Request, res: Response, next: NextFunction)
 
 router.post('/signup', async (req, res) => {
     const { username, password } = req.body;
-    const user = await prisma.todoUser.findMany({
+    const user = await prisma.todoUser.findUnique({
         where: {
             username : username
         }
     });
     if (user) {
+        console.log(user)
         return res.status(403).send("User already exists");
     }
     const newUser = await prisma.todoUser.create({
