@@ -4,7 +4,14 @@ import type { AppRouter } from '../server';
 const trpc = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: 'http://localhost:3000',
+     url: 'https://crispy-zebra-7v7xjrw5rgwxcpvvr-3000.app.github.dev/',
     }),
   ],
 });
+
+async function main(){
+  let res = await trpc.getTodo.query()
+
+  console.log(res)
+}
+main()

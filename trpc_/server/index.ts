@@ -1,6 +1,7 @@
 import { router } from "./trpc"
 import { publicProcedure } from "./trpc"
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
+import { PrismaClient } from "@prisma/client";
 
 import { z } from "zod"
 const appRouter = router({
