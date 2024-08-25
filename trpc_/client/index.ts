@@ -1,5 +1,6 @@
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import type { AppRouter } from '../server';
+import { truncate } from 'fs';
 
 const trpc = createTRPCClient<AppRouter>({
   links: [
@@ -10,8 +11,14 @@ const trpc = createTRPCClient<AppRouter>({
 });
 
 async function main(){
-  let res = await trpc.getTodo.query()
+  //let res = await trpc.getTodo.query()
+  let res2 = await trpc.createTodo.mutate({
+    title:"dance",
+    description:"gotta dance",
+    done:true,
+    userId: 1
+  })
 
-  console.log(res)
+  console.log(res2)
 }
 main()
