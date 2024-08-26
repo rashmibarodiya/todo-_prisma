@@ -8,8 +8,9 @@ const prisma = new PrismaClient();
 
 const appRouter = router({
     // routes
-    getTodo: publicProcedure.query(async () => {
+    getTodo: publicProcedure.query(async (opts) => {
         const todo = await prisma.todo.findFirst();
+        console.log(opts.ctx.username)
         return todo;
     }),
 
@@ -37,6 +38,13 @@ const appRouter = router({
 
 const server = createHTTPServer({
     router: appRouter,
+    createContext(opts){
+        let headuser = opts.req.headers["authorization"]
+        console.log(headuser)
+        return{
+            username : "rashmi"
+        }
+    }
 });
 
 server.listen(3000);
