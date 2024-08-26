@@ -7,8 +7,8 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient()
 
 
-//const secret  ="secret"
-const appRouter = router({
+const secret  ="secret"
+ export const userRouter = router({
     //signup
     signup: publicProcedure.input(z.object({
         username: z.string(),
@@ -32,7 +32,7 @@ const appRouter = router({
                 }
 
             })
-            const token = jwt.sign({ id: newUser.id }, process.env.SECRET!, { expiresIn: '1h' });
+            const token = jwt.sign({ id: newUser.id }, secret, { expiresIn: '1h' });
             return {
                 newUser ,
                 token  
@@ -46,4 +46,3 @@ const appRouter = router({
 })
 
 
-export type AppRouter2 = typeof appRouter

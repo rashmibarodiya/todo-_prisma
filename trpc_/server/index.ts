@@ -3,47 +3,43 @@ import { publicProcedure } from "./trpc";
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { userRouter } from "../router/auth";
+import{todoRouter} from"../router/todo"
 
+interface MyJwtPayload extends JwtPayload {
+    username: string;
+}
 const prisma = new PrismaClient();
 
-const appRouter = router({
-    // routes
-    getTodo: publicProcedure.query(async (opts) => {
-        const todo = await prisma.todo.findFirst();
-        console.log(opts.ctx.username)
-        return todo;
-    }),
 
-    createTodo: publicProcedure
-        .input(z.object({
-            title: z.string(),
-            description: z.string(),
-            done: z.boolean(),
-            userId  :z.number()
-        }))
-        .mutation(async (opts) => {
-            const todo = await prisma.todo.create({
-                data: {
-                    title: opts.input.title,
-                    description: opts.input.description,
-                    done: opts.input.done,
-                    authorId : opts.input.userId
-                },
-            });
-            console.log(todo)
-            console.log("todo added successfully")
-            return todo;
-        })
+// using trpc
+const appRouter = router({
+    user: userRouter ,
+    todo: todoRouter,
 });
 
 const server = createHTTPServer({
     router: appRouter,
-    createContext(opts){
-        let headuser = opts.req.headers["authorization"]
-        console.log(headuser)
-        return{
-            username : "rashmi"
-        }
+    createContext(opts) {
+        const authHeader = opts.req.headers["authorization"];
+        return new Promise<{ username?: string; prisma: PrismaClient }>((resolve) => {
+            if (authHeader) {
+                const token = authHeader.split(' ')[1];
+                console.log(token);
+
+                jwt.verify(token, "secret", (err, user) => {
+                    if (err || !user) {
+                        resolve({ prisma }); // If there's an error or no user, just pass Prisma
+                    } else {
+                        const payload = user as JwtPayload
+                        resolve({ username: payload.username, prisma }); // Pass Prisma and username
+                    }
+                });
+            } else {
+                resolve({ prisma }); // If no auth header, just pass Prisma
+            }
+        });
     }
 });
 
