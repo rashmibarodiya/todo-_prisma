@@ -5,7 +5,8 @@ import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { userRouter } from "../router/auth";
-import{todoRouter} from"../router/todo"
+import { todoRouter } from "../router/todo"
+import cors from "cors"
 
 interface MyJwtPayload extends JwtPayload {
     username: string;
@@ -15,12 +16,13 @@ const prisma = new PrismaClient();
 
 // using trpc
 const appRouter = router({
-    user: userRouter ,
+    user: userRouter,
     todo: todoRouter,
 });
 
 const server = createHTTPServer({
     router: appRouter,
+    middleware: cors(),
     createContext(opts) {
         const authHeader = opts.req.headers["authorization"];
         return new Promise<{ username?: string; prisma: PrismaClient }>((resolve) => {
