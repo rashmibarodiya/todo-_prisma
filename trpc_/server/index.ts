@@ -2,7 +2,6 @@ import { router } from "./trpc";
 import { publicProcedure } from "./trpc";
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { userRouter } from "../router/auth";
 import { todoRouter } from "../router/todo"

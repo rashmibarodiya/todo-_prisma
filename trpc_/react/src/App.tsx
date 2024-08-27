@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
-import React, { useState } from 'react';
+import{ useState } from 'react';
 import { trpc } from './utils/trpc';
 import Index from './Index';
 
@@ -11,11 +11,10 @@ export default function App() {
       links: [
         httpBatchLink({
           url: 'https://crispy-zebra-7v7xjrw5rgwxcpvvr-3000.app.github.dev/',
-
-          // You can pass any HTTP headers you wish here
+          
           async headers() {
             return {
-              authorization: "Bearer "+ localStorage.getItem("token") ||"",
+              authorization: "Bearer " + localStorage.getItem("token") || "",
             };
           },
         }),
@@ -23,12 +22,14 @@ export default function App() {
     }),
   );
 
-  return (
+  return (<>
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-       <Index/>
+        hehrtethrlehlkwjt
+        <Index/>
       </QueryClientProvider>
     </trpc.Provider>
+    </>
   );
 }
 
