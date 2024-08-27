@@ -7,8 +7,8 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient()
 
 
-const secret  ="secret"
- export const userRouter = router({
+const secret = "secret"
+export const userRouter = router({
     //signup
     signup: publicProcedure.input(z.object({
         username: z.string(),
@@ -34,49 +34,49 @@ const secret  ="secret"
             })
             const token = jwt.sign({ username: newUser.username }, secret, { expiresIn: '1h' });
             return {
-                newUser ,
-                token  
+                newUser,
+                token
             }
         }
     }),
 
     //login
 
-    login : publicProcedure.input(z.object({
-        username : z.string(),
-        password : z.string()
+    login: publicProcedure.input(z.object({
+        username: z.string(),
+        password: z.string()
     })).query(async (opts) => {
-       const user =  await opts.ctx.prisma.todoUser.findUnique({
-            where : {
-                username : opts.input.username,
-                password : opts.input.password
+        const user = await opts.ctx.prisma.todoUser.findUnique({
+            where: {
+                username: opts.input.username,
+                password: opts.input.password
             }
         })
-        if(!user){
+        if (!user) {
             return {
-                msg : "incorrect username or password"
+                msg: "incorrect username or password"
             }
         }
-        const token = jwt.sign({username:user.username},"secret",{expiresIn: "1h"})
-        
-         return {
+        const token = jwt.sign({ username: user.username }, "secret", { expiresIn: "1h" })
+
+        return {
             user,
             token
-         }
+        }
     }),
 
     //me 
-    me : publicProcedure.query(async(opts)=> {
+    me: publicProcedure.query(async (opts) => {
         const username = opts.ctx.username
-        if(!username){
+        if (!username) {
             return {
-                msg : "not logged in",
+                msg: "not logged in",
 
             }
-        } 
+        }
         const user = await opts.ctx.prisma.todoUser.findUnique({
-            where:{
-                username : username
+            where: {
+                username: username
             }
         })
         return user

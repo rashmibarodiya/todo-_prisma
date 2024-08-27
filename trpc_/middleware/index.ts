@@ -3,20 +3,19 @@ import { TRPCError } from "@trpc/server"
 import { middleware } from "../server/trpc"
 
 export const isLoggedIn = middleware(async (opts) => {
-    const op = opts.ctx.username
+    const username = opts.ctx.username
     const prisma = opts.ctx.prisma
-    if(!op){
-        throw new TRPCError({code : "UNAUTHORIZED"})
+    if (!username) {
+        throw new TRPCError({ code: "UNAUTHORIZED" })
     }
 
     let user = await prisma.todoUser.findUnique({
-        where:{
-            username
-            :op
+        where: {
+            username: username
         }
     })
     return opts.next({
-        ctx : {
+        ctx: {
             user
         }
     })
