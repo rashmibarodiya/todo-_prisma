@@ -34,7 +34,8 @@ const server = createHTTPServer({
                     if (err || !user) {
                         resolve({ prisma }); // If there's an error or no user, just pass Prisma
                     } else {
-                        const payload = user as JwtPayload
+                        const payload = user as MyJwtPayload
+                        console.log("payload : "+ payload)
                         resolve({ username: payload.username, prisma }); // Pass Prisma and username
                     }
                 });

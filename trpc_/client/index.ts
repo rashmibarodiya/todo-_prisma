@@ -9,14 +9,14 @@ const trpc = createTRPCClient<AppRouter>({
     httpBatchLink({
      url: 'https://crispy-zebra-7v7xjrw5rgwxcpvvr-3000.app.github.dev/',
      headers :{
-      "authorization" :"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQsImlhdCI6MTcyNDY3OTQ3NywiZXhwIjoxNzI0NjgzMDc3fQ.iksftWWhmmtc7968AsLAgtLOMCXeaoTU3T6H-u1Be78"
+      "authorization" :"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvbGEiLCJpYXQiOjE3MjQ3NjQwNjIsImV4cCI6MTcyNDc2NzY2Mn0.iP58CYoqKy7uPtucT6e0ds_qNfwwtq4gZhNv61MLj24"
      }
     }),
   ],
 });
 
 async function main(){
-   let res = await trpc.todo.getTodo.query()
+ //  let res = await trpc.todo.getTodo.query()
   // let res2 = await trpc.createTodo.mutate({
   //   title:"dance",
   //   description:"gotta dance",
@@ -25,10 +25,11 @@ async function main(){
   // })
 
   
-  let res3 = await trpc.user.signup.mutate({
-    username : "me",
-    password : "123"
-  })
-  console.log(res3)
+  // let res3 = await trpc.user.login.query({
+  //   username : "hola",
+  //   password : "123"
+  // })
+ let me = await trpc.user.me.query()
+  console.log(me)
 }
 main()

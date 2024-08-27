@@ -32,7 +32,7 @@ const secret  ="secret"
                 }
 
             })
-            const token = jwt.sign({ id: newUser.id }, secret, { expiresIn: '1h' });
+            const token = jwt.sign({ username: newUser.username }, secret, { expiresIn: '1h' });
             return {
                 newUser ,
                 token  
@@ -42,7 +42,45 @@ const secret  ="secret"
 
     //login
 
-    
+    login : publicProcedure.input(z.object({
+        username : z.string(),
+        password : z.string()
+    })).query(async (opts) => {
+       const user =  await opts.ctx.prisma.todoUser.findUnique({
+            where : {
+                username : opts.input.username,
+                password : opts.input.password
+            }
+        })
+        if(!user){
+            return {
+                msg : "incorrect username or password"
+            }
+        }
+        const token = jwt.sign({username:user.username},"secret",{expiresIn: "1h"})
+        
+         return {
+            user,
+            token
+         }
+    }),
+
+    //me 
+    me : publicProcedure.query(async(opts)=> {
+        const username = opts.ctx.username
+        if(!username){
+            return {
+                msg : "not logged in",
+
+            }
+        } 
+        const user = await opts.ctx.prisma.todoUser.findUnique({
+            where:{
+                username : username
+            }
+        })
+        return user
+    })
 })
 
 
