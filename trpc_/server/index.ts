@@ -27,10 +27,11 @@ const server = createHTTPServer({
         return new Promise<{ username?: string; prisma: PrismaClient }>((resolve) => {
             if (authHeader) {
                 const token = authHeader.split(' ')[1];
-                console.log(token);
+                console.log("inside server " +token);
 
                 jwt.verify(token, "secret", (err, user) => {
                     if (err || !user) {
+                        console.log("not found")
                         resolve({ prisma }); // If there's an error or no user, just pass Prisma
                     } else {
                         const payload = user as MyJwtPayload
