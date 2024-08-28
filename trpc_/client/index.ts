@@ -9,7 +9,7 @@ const trpc = createTRPCClient<AppRouter>({
     httpBatchLink({
       url: 'https://crispy-zebra-7v7xjrw5rgwxcpvvr-3000.app.github.dev/',
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvbGEiLCJpYXQiOjE3MjQ3NzU2MTUsImV4cCI6MTcyNDc3OTIxNX0.ZsnD3fCs313D_9YMldbFdia6HlZkt0sKqbFCW6vJTxs"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvbGEiLCJpYXQiOjE3MjQ4NjkyNDksImV4cCI6MTcyNDg3Mjg0OX0.0ho0VB5JXT-f84VTPbjaDYC-edzv31AN2hrFx5Wm12g"
       }
     }),
   ],

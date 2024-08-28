@@ -11,7 +11,7 @@ export default function Signin() {
             if ('token' in data) {
                 let token = data.token;
                 localStorage.setItem("token", token);
-                window.location.href = "/";
+             window.location.href = "/";//  window.location.reload();
                 alert("Login successful");
             } else {
                 alert(data.msg);  // Show error message
