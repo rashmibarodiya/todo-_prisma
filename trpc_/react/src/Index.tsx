@@ -1,6 +1,7 @@
 
 
-import Signup from "./Signup"
+// import Signup from "./Signup"
+import Signin from "./Signin";
 import { trpc } from "./utils/trpc"
 export default function Index() {
     const userQuery = trpc.user.me.useQuery();
@@ -12,11 +13,16 @@ export default function Index() {
     }
 
     if (userQuery.isError) {
-        return <Signup />;
+        alert(userQuery.error)
+        console.log("myerror : ")
+        console.error(userQuery.error)
+        return <Signin></Signin>;
     }
-
+console.log("user query ")
+console.log(userQuery.data)
     return (
         <div>
+            gkfdjghkfdjgh
             <p>Hi {userQuery.data?.username}</p>
             {todoQuery.data?.map((x, index) => (
                 <div key={index}>{x.title} - {x.description}</div>

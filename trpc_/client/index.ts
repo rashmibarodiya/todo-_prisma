@@ -25,7 +25,7 @@ async function main() {
   // })
 
 
-  let res3 = await trpc.user.login.query({
+  let res3 = await trpc.user.login.mutate({
     username : "hola",
     password : "123"
   })

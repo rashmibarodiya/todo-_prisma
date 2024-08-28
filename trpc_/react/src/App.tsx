@@ -14,7 +14,7 @@ export default function App() {
           
           async headers() {
             return {
-              authorization: "Bearer " + localStorage.getItem("token") || "",
+              authorization: "Bearer " + localStorage.getItem("token"),
             };
           },
         }),
