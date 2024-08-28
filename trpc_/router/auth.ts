@@ -21,7 +21,8 @@ export const userRouter = router({
         })
         if (user) {
             return {
-                msg: "user already exist"
+                msg: "user already exist",
+                token: ""
             }
         } else {
 
@@ -69,12 +70,6 @@ console.log(user)
     //me 
     me: publicProcedure.query(async (opts) => {
         const username = opts.ctx.username
-        if (!username) {
-            return {
-                msg: "not logged in",
-
-            }
-        }
         const user = await opts.ctx.prisma.todoUser.findUnique({
             where: {
                 username: username

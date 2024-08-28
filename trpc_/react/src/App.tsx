@@ -25,7 +25,6 @@ export default function App() {
   return (<>
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        hehrtethrlehlkwjt
         <Index/>
       </QueryClientProvider>
     </trpc.Provider>

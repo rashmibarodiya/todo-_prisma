@@ -3,12 +3,12 @@ import { PrismaClient } from "@prisma/client";
 import { router } from "../server/trpc"
 import { publicProcedure } from "../server/trpc";
 
-import { z } from "zod"
+import { number, z } from "zod"
 import jwt from "jsonwebtoken";
 const prisma = new PrismaClient()
 
 
-const secret  ="secret"
+const secret = "secret"
 
 export const todoRouter = router({
     // routes
@@ -37,6 +37,41 @@ export const todoRouter = router({
             console.log(todo);
             console.log("Todo added successfully");
             return todo;
+        }),
+
+    getAllTodo: publicProcedure.query(async (opts) => {
+        const user = await opts.ctx.prisma.todoUser.findUnique({
+            where: {
+                username: opts.ctx.username
+            }
         })
+        if(!user){
+            return []
+        }
+        const todoArr = await opts.ctx.prisma.todo.findMany({
+            where: {
+                authorId: user.id
+            }
+        })
+        return todoArr
+
+    }),
+    // getAllTodo: publicProcedure.input(z.object({
+    //     id : z.number()
+    // })).query(async (opts) => {
+    //     // const user = await opts.ctx.prisma.todoUser.findUnique({
+    //     //     where: {
+    //     //         username: opts.ctx.username
+    //     //     }
+    //     // })
+        
+    //     const todoArr = await opts.ctx.prisma.todo.findMany({
+    //         where: {
+    //             authorId: opts.input.id
+    //         }
+    //     })
+    //     return todoArr
+
+    // })
 });
 

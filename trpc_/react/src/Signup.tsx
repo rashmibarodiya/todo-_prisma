@@ -1,14 +1,26 @@
 import { useState } from "react"
-
+import { trpc } from './utils/trpc';
 
 export default function Signup() {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+
+    const userSignupMutate = trpc.user.signup.useMutation({
+        onSuccess: (data) => {
+           
+            let token = data.token;
+            localStorage.setItem("token", token);
+            window.location.href = "/";
+            alert("signup successfully")
+          }
+        });
     return (
         <>
             <div>
-                <div>
+                <div style={
+                    {display :"flex",justifyContent : "center"}
+                }>
                     username:
 
                     <input onChange={(e) => {
@@ -26,8 +38,13 @@ export default function Signup() {
                     ></input>
 
                 </div>
-                {username}
-                {password}
+                <button onClick={async () => {
+      userSignupMutate.mutate({
+        username,
+        password
+      })
+    }}>Sign up</button>
+                
             </div></>
     )
 }
